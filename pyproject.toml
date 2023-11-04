@@ -31,13 +31,8 @@ classifiers = [
 ]
 dynamic = ["version"]
 dependencies = [
-  "python-dotenv==1.0.0",
-  "pydantic==2.1.1",
-  "pydantic-settings==2.0.2",
-  "pandas==2.0.3",
-  "scikit-learn==1.3.0",
-  "scipy==1.11.1",
-  "matplotlib==3.7.2",
+  "pandas",
+  "numpy",
 ]
 
 [project.urls]
