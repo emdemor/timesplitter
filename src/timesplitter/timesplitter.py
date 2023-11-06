@@ -4,7 +4,7 @@ import pandas as pd
 
 
 class TimeSplitter:
-    def __init__(self, train_size: int, test_size: int, gap: int = 0):
+    def __init__(self, train_size: int, test_size: int, gap: int = 0, return_pandas: bool = False):
         """
         Inicializa o objeto TimeSplitter com tamanhos de treinamento e teste, e um intervalo (gap) opcional.
 
@@ -13,10 +13,12 @@ class TimeSplitter:
             test_size (int): O tamanho do conjunto de teste em cada divisão.
             gap (int, opcional): O intervalo entre os conjuntos de treinamento e teste em cada divisão.
                 O valor padrão é 0.
+            return_pandas: bool: Indica que o splitter retornará uma lista de dataframes quando aplicável
         """
         self.train_size = train_size
         self.test_size = test_size
         self.gap = gap
+        self.return_pandas = return_pandas
         self.fold_size = self.train_size + self.gap + self.test_size
 
     def split(
@@ -45,7 +47,7 @@ class TimeSplitter:
         self, X: Union[pd.DataFrame, np.ndarray], n_splits: int, data_type: str
     ) -> Union[np.ndarray, List[pd.DataFrame]]:
         datasets = [self._get_train_slice(X, i, data_type) for i in range(n_splits)]
-        if data_type != "pandas":
+        if (data_type != "pandas") or (not self.return_pandas):
             datasets = np.array(datasets)
         return datasets
 
@@ -53,7 +55,7 @@ class TimeSplitter:
         self, X: Union[pd.DataFrame, np.ndarray], n_splits: int, data_type: str
     ) -> Union[np.ndarray, List[pd.DataFrame]]:
         datasets = [self._get_test_slice(X, i, data_type) for i in range(n_splits)]
-        if data_type != "pandas":
+        if (data_type != "pandas") or (not self.return_pandas):
             datasets = np.array(datasets)
         return datasets
 
